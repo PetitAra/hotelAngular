@@ -9,7 +9,7 @@ export class ConfigService {
 
   httpOptions = {
     headers : new HttpHeaders({
-      'Authorization' : "" 
+      'Authorization' : "Basic" 
     })
   }
   

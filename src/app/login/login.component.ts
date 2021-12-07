@@ -18,28 +18,24 @@ export class LoginComponent implements OnInit {
   username = ""
   password = ""
 
-  constructor( private http : HttpClient, private router : Router , private app : AppComponent, private config: ConfigService) { }
+  constructor(private http: HttpClient, private router: Router, private app: AppComponent, private config: ConfigService) { }
 
   ngOnInit(): void {
   }
 
-  authenticate(){
+  authenticate() {
 
-    let u = {"username" : this.username , "password" : this.password }
+    let u = { "username": this.username, "password": this.password }
 
     // http://localhost:8080/api/login
-    this.http.post<Admin>( environment.backendUri + "login" , u ).subscribe(
+    this.http.post<Admin>(environment.backendUri + "login", u).subscribe(
       {
-        next: (data) => { 
-          sessionStorage.setItem("connected" , "1" ); 
-          sessionStorage.setItem("user" , JSON.stringify(data) )
-          this.router.navigate(['hotel'])  
+        next: (data) => {
+          sessionStorage.setItem("connected", "1");
+          sessionStorage.setItem("user", JSON.stringify(data))
+          this.router.navigate(['hotel'])
           this.app.user = data
-          this.config.httpOptions = {
-            headers : new HttpHeaders({
-              'Authorization' : "Basic " + data.password 
-            })
-          }
+          this.config.httpOptions.headers = new HttpHeaders({ 'Authorization': "Basic " + data.password })
         },
         //error: (err) => { console.log(err.error.message) }
       }

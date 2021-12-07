@@ -10,6 +10,9 @@ const routes: Routes = [
   {path:"hotel",component : HotelComponent, canActivate: [AuthGuard]},
   {path : "client", component :ClientComponent, canActivate: [AuthGuard]},
   {path: "resa", component:ResaComponent, canActivate: [AuthGuard]},
+  { path : "hotel/addedit/:id" , component: HotelComponent, canActivate: [AuthGuard] },
+  { path : "client/addedit/:id" , component: ClientComponent, canActivate: [AuthGuard] },
+  { path : "resa/addedit/:id" , component: ResaComponent, canActivate: [AuthGuard] },
   { path : "login" , component: LoginComponent}
 ];
 
