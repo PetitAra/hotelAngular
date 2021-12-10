@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 import { Client } from '../classes/client';
-import { environment } from '../environments/environment';
+ 
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -13,8 +14,10 @@ export class ClientService {
 
   constructor( private http : HttpClient, private config : ConfigService ) {  }
 
-   getAll(s ?: string):Observable<Client[]>{
-    return this.http.get<Client[]>(environment.backendUri+"client" + (s == undefined ? "" : "?search=" + s), this.config.httpOptions );
+
+    getAll(s ?: string, idresa ?: number):Observable<Client[]>{
+    return this.http.get<Client[]>(environment.backendUri+"client" + (s == undefined ? "" : "?search=" + s)
+    + ( idresa == undefined || (""+idresa) == "" || idresa == 0 ? "" : "&resa=" + idresa ), this.config.httpOptions );
    }
 
     delete(id ?: number): Observable<any>{

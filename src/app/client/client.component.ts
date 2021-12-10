@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Client } from '../classes/client';
 import { ClientService } from '../services/client.service';
@@ -17,9 +19,12 @@ export class ClientComponent implements OnInit {
   success: boolean = false
 
 
- // searchForm = new FormGroup({
- //   item : new FormControl(""),
- // });
+  @ViewChild("closebutton") closebuttonelement: any;
+
+
+  searchForm = new FormGroup({
+    item: new FormControl(""),
+  });
 
   constructor(private cs: ClientService) {
   }
@@ -28,11 +33,14 @@ export class ClientComponent implements OnInit {
     this.reloadClients();
   }
 
-  reloadClients(): void {
-    this.cs.getAll().subscribe({
+
+    reloadClients(): void {
+    console.log("search ==" + this.search)
+    this.clients=[]
+    this.cs.getAll(this.search).subscribe({
       next: (data) => { this.clients = data },
       error: (err) => { console.log(err.error.message) }
-    }); 
+    });
   }
 
   clearClients(): void {
@@ -43,16 +51,22 @@ export class ClientComponent implements OnInit {
   }
 
   delete(id: number | undefined): void {
-
+    let obs: Observable<any>;
     if (confirm("Êtes vous sur ?")) {
-      this.cs.delete(id).subscribe(
-        data => {
-          this.reloadClients();
-        }
-        //, err => console.log( "Une erreur est survenue" )
-      );
-    }
+      obs = this.cs.delete(id);
+    
+    obs.subscribe({
+      next: () => {
+        this.reloadClients()
+      },
+      error: (err) => {
+        this.errorMessage = err.error.message;
+      }
+    })
+    //, err => console.log( "Une erreur est survenue" )
   }
+  }
+  
 
   edit(id?: number) {
     this.cs.getById(id).subscribe(
@@ -73,6 +87,7 @@ export class ClientComponent implements OnInit {
       {
         next: () => {
           this.reloadClients();
+          this.closebuttonelement.nativeElement.click();
           this.success = true;
           setTimeout(() => {                           // <<<---using ()=> syntax
             this.success = false;

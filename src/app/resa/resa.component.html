@@ -1,1 +1,127 @@
-<p>resa works!</p>
+<main class="container">
+
+    <div class="alert alert-success" *ngIf="success">Opération effectuée avec succès</div>
+
+    <button [routerLink]="['addedit' , 0 ]" class="btn btn-primary" (click)="resetResa()">Ajouter une resa</button>
+
+    <button class="btn btn-primary ms-3" (click)="reloadResas()">Actualiser</button>
+
+   
+
+    <h1 class="my-4">Liste des resas</h1>
+
+
+    <form method="get" (submit)="reloadResas()" id="searchForm">
+        <div class="row my-4">
+            <div class="col-4">
+                <select name="client" id="client" required class="form-select" [(ngModel)]="clientRecherche" >
+                    <option value="" disabled selected="selected">Sélectionner un client</option>
+                    <option *ngFor="let client of clients" [ngValue]="client.id">
+                        {{client.nomComplet}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="alert alert-info" *ngIf="resas.length == 0" id="no-items-message">Aucune resa trouvée</div>
+
+            <table class="table table-striped" *ngIf="resas.length > 0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Date de debut</th>
+                        <th>Date de fin</th>
+                        <th>Numero de la chambre</th>
+                        <th>Client</th>
+                        <th>Hotel</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let resa of resas">
+                        <td>{{ resa.id }}</td>
+                        <td>{{ resa.datedeb}}</td>
+                        <td>{{ resa.datefin }}</td>
+                        <td>{{ resa.numChambre }}</td>
+                        <td>{{ resa.client?.nomComplet}}</td>
+                        <td>{{ resa.hotel?.nom}}</td>
+                        <td>
+                            <a [routerLink]="['addedit',resa.id]" class="btn btn-secondary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <button class="btn btn-danger btn-sm ms-3" (click)="delete( resa.id )">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="resa.id==undefined">Ajouter une resa</h5>
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="resa.id!=undefined">Editer une resa</h5>
+          <button type="button" class="btn-close" #closebutton data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form ngNativeValidate (submit)="submitResa()">
+        <div class="modal-body">
+        
+            <div class="alert alert-danger" *ngIf="errorMessage.length > 0">{{errorMessage}}</div>
+                
+                <div class="form-line mb-4">
+                    <label class="form-label">Date de debut *</label>
+                    <input class="form-control" minlength="2" type="date" name="datedeb" placeholder="Date de debut" [(ngModel)]="resa.datedeb" required>
+                </div>
+                <div class="form-line mb-4">
+                    <label class="form-label">Date de fin *</label>
+                    <input class="form-control" minlength="2" type="date" name="datefin" placeholder="Date de fin" [(ngModel)]="resa.datefin" required>
+                </div>
+                <div class="form-line mb-4">
+                    <label>Numero de la chambre *</label>
+                    <input class="form-control" type="text" name="numChambre" placeholder="Numero de la chambre" [(ngModel)]="resa.numChambre" required>
+                </div>
+                <div class="form-line mb-4">
+                    <label class="form-label">Client *</label>
+                    <div id="cities-content">
+                        <select name="client" id="client" required class="form-select" [(ngModel)]="resa.client" [compareWith]="checkClient">
+                            <option  selected disabled>Sélectionner client</option>
+                                <option  *ngFor="let client of clients" [ngValue]="client">
+                                    {{client.nomComplet}}
+                                </option>
+
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-line mb-4">
+                    <label class="form-label">Hotel *</label>
+                    <div id="cities-content">
+                        <select name="hotel" id="hotel" required class="form-select" [(ngModel)]="resa.hotel"  [compareWith]="checkHotel">
+                            <option  selected disabled>Sélectionner ville</option>
+                                <option  *ngFor="let hotel of hotels" [ngValue]="hotel">
+                                    {{hotel.nom}}
+                                </option>
+
+                        </select>
+                    </div>
+                  </div>
+                
+                    
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" type="submit" class="btn btn-primary" >Valider</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>

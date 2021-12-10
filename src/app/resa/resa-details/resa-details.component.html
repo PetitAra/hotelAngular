@@ -1,0 +1,54 @@
+
+<div class="container">
+
+    <h1 *ngIf="resa.id == undefined">Ajouter une resa</h1>
+    <h1 *ngIf="resa.id != undefined">Editer une resa</h1>
+    
+    <div class="alert alert-danger" *ngIf="errorMessage.length > 0">{{errorMessage}}</div>
+    <hr>
+    
+    <form name="monForm" action="" method="post" (submit)="submitResa()" #monForm="ngForm">
+                  
+        <div class="form-line mb-4">
+            <label>Date de debut *</label>
+            <input class="form-control" type="date" name="datedeb" placeholder="Date de debut" required [(ngModel)]="resa.datedeb">
+        </div>
+        <div class="form-line mb-4">
+            <label>Date de fin *</label>
+            <input class="form-control" type="date" name="datefin" placeholder="Date de fin" required [(ngModel)]="resa.datefin">
+        </div>
+        <div class="form-line mb-4">
+            <label>Numero de la chambre *</label>
+            <input class="form-control" type="text" name="numChambre" placeholder="Numero de la chambre" required [(ngModel)]="resa.numChambre">
+        </div>
+        <div class="form-line mb-4">
+            <label class="form-label">Client *</label>
+            <div id="cities-content">
+                <select name="client" id="client" required class="form-select" [(ngModel)]="resa.client" [compareWith]="checkClient">
+                    <option  selected disabled>Sélectionner client</option>
+                        <option  *ngFor="let client of clients" [ngValue]="client">
+                            {{client.nomComplet}}
+                        </option>
+
+                </select>
+            </div>
+          </div>
+          <div class="form-line mb-4">
+            <label class="form-label">Hotel *</label>
+            <div id="cities-content">
+                <select name="hotel" id="hotel" required class="form-select" [(ngModel)]="resa.hotel"  [compareWith]="checkHotel">
+                    <option  selected disabled>Sélectionner ville</option>
+                        <option  *ngFor="let hotel of hotels" [ngValue]="hotel">
+                            {{hotel.nom}}
+                        </option>
+
+                </select>
+            </div>
+          </div>
+
+        <div class="form-line mb-4">
+            <button type="submit" class="btn btn-primary" [disabled]="!monForm.valid">Envoyer</button>
+        </div>
+
+    </form>
+</div>

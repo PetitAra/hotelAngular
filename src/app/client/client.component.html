@@ -2,20 +2,22 @@
 
     <div class="alert alert-success" *ngIf="success">Opération effectuée avec succès</div>
 
-    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary" (click)="resetClient()">Ajouter un client</button>
+    <button [routerLink]="['addedit' , 0 ]" class="btn btn-primary" (click)="resetClient()">Ajouter un client</button>
 
     <button class="btn btn-primary ms-3" (click)="reloadClients()">Actualiser</button>
 
-    <button class="btn btn-danger ms-3" (click)="clearClients()">Vider</button>
+    
 
     <h1 class="my-4">Liste des clients</h1>
 
-    <form method="get" (submit)="reloadClients()">
+                        <div class="alert alert-danger" *ngIf="errorMessage.length > 0">{{errorMessage}}</div>
+
+    <form method="get"  (submit)="reloadClients()">
         <div class="row my-4">
             <div class="col-4">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="search" placeholder="Rechercher" 
-                    formControlName="item" aria-describedby="button-addon2">
+                     aria-describedby="button-addon2" [(ngModel)]="search">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </div>
             </div>
@@ -24,6 +26,8 @@
             </div>
         </div>
     </form>
+
+    <div class="alert alert-info" *ngIf="clients.length == 0" id="no-items-message">Aucun client trouvé</div>
 
             <table class="table table-striped" *ngIf="clients.length > 0">
                 <thead>
@@ -44,7 +48,7 @@
                         <td>{{ client.email}}</td>
                         <td>{{ client.telephone}}</td>
                         <td>
-                            <a [routerLink]="['addedit' , client.id ]" class="btn btn-secondary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a [routerLink]="['addedit',client.id]" class="btn btn-secondary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             <button class="btn btn-danger btn-sm ms-3" (click)="delete( client.id )">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </button>

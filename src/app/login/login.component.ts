@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
-import { environment } from '../environments/environment';
 import { Admin } from '../classes/admin';
 import { ConfigService } from '../services/config.service';
+import { environment } from 'src/environments/environment';
 
 
 

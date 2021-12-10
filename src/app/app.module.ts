@@ -7,9 +7,13 @@ import { ClientComponent } from './client/client.component';
 import { HotelComponent } from './hotel/hotel.component';
 import { ResaComponent } from './resa/resa.component';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfigService } from './services/config.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { ResaDetailsComponent } from './resa/resa-details/resa-details.component';
+import { ClientDetailsComponent } from './client/client-details/client-details.component';
 
 
 @NgModule({
@@ -18,12 +22,17 @@ import { ConfigService } from './services/config.service';
     HotelComponent,
     ClientComponent,
     ResaComponent,
-    LoginComponent
+    LoginComponent,
+    HeaderComponent,
+    FooterComponent,
+    ResaDetailsComponent,
+    ClientDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
   ],
   providers: [ConfigService],

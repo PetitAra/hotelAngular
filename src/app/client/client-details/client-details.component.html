@@ -1,0 +1,33 @@
+<div class="container">
+
+    <h1 *ngIf="client.id == undefined">Ajouter un client</h1>
+    <h1 *ngIf="client.id != undefined">Editer un client</h1>
+    
+    <div class="alert alert-danger" *ngIf="errorMessage.length > 0">{{errorMessage}}</div>
+    <hr>
+       {{client.id}}
+    <form name="monForm" action="" method="post" (submit)="submitClient()" #monForm="ngForm">
+                  
+        <div class="form-line mb-4">
+            <label>Nom complet *</label>
+            <input class="form-control" type="text" name="nomComplet" placeholder="Nom complet" required [(ngModel)]="client.nomComplet">
+        </div>
+        <div class="form-line mb-4">
+            <label>Adresse *</label>
+            <input class="form-control" type="text" name="adresse" placeholder="Adresse" required [(ngModel)]="client.adresse">
+        </div>
+        <div class="form-line mb-4">
+            <label>Email *</label>
+            <input class="form-control" type="text" name="email" placeholder="Email" required [(ngModel)]="client.email">
+        </div>
+        <div class="form-line mb-4">
+            <label>Telephone *</label>
+            <input class="form-control" type="text" name="telephone" placeholder="Telephone" required [(ngModel)]="client.telephone">
+        </div>
+
+        <div class="form-line mb-4">
+            <button type="submit" class="btn btn-primary" [disabled]="!monForm.valid">Envoyer</button>
+        </div>
+
+    </form>
+</div>

@@ -43,5 +43,20 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       }
       return new Admin(); 
     }
+
+    getUserFullname() : string | undefined{
+      let user : Admin; 
+      let ss = sessionStorage.getItem("user")
+      console.log( ss )
+      if( ss != null ){
+        user = JSON.parse(ss);
+  
+        console.log( user )
+        return user.username; 
+      }else{
+        return ""; 
+      }
+  
+    }
   
 }
