@@ -20,13 +20,19 @@ export class FooterComponent implements OnInit {
 
   constructor(private guard: AuthGuard, private http: HttpClient, public app: AppComponent, private config: ConfigService ) { this.app.user = new Admin() }
 
-  
+  public admin: Admin = new Admin();
+
   ngOnInit(): void {
     this.app.user = this.guard.getUser();
   }
 
   ngAfterViewInit() {
     
+  }
+
+  update(  ){
+    this.admin = this.guard.getUser()
+    console.log( this.guard.getUser() ); 
   }
 
   submit() {
